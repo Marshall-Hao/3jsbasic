@@ -27,7 +27,7 @@ window.addEventListener("dblclick", () => {
   if (!document.fullscreenElement) {
     canvas.requestFullscreen();
   } else {
-    document.exitFullscreen();
+    document.exitFullscreen(l);
   }
 });
 //*cursor
@@ -49,12 +49,52 @@ const canvas = document.querySelector("canvas.webgl");
 // group.scale.y = 2;
 // group.rotation.y = 1;
 // scene.add(group);
+// const positionsArray = new Float32Array([
+//   0,
+//   0,
+//   0, // First vertex
+//   0,
+//   1,
+//   0, // Second vertex
+//   1,
+//   0,
+//   0, // Third vertex
+// ]);
 
-const cube1 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1, 5, 5, 5),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-scene.add(cube1);
+// for (let i = 0; i++; i < positionsArray.length) {
+//   positionsArray[i] = 0;
+// }
+// positionsArray[4] = 1;
+// positionsArray[6] = 1;
+
+// const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
+
+// const geometry = new THREE.BufferGeometry();
+// geometry.setAttribute("position", positionsAttribute);
+const geometry = new THREE.BufferGeometry();
+const count = 100;
+const positionArray = new Float32Array(count * 3 * 3);
+
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionArray[i] = (Math.random() - 0.5) * 4;
+}
+
+const positionsAttribute = new THREE.BufferAttribute(positionArray, 3);
+geometry.setAttribute("position", positionsAttribute);
+const material = new THREE.MeshBasicMaterial({
+  color: 0xff0000,
+  wireframe: true,
+});
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+// const cube1 = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1, 2, 2, 2),
+//   new THREE.MeshBasicMaterial({
+//     color: 0xff0000,
+//     wireframe: true,
+//   })
+// );
+// scene.add(cube1);
 
 // const cube2 = new THREE.Mesh(
 //   new THREE.BoxGeometry(1, 1, 1),
@@ -70,8 +110,8 @@ scene.add(cube1);
 // cube3.position.x = 2;
 // group.add(cube3);
 // *Axes helper
-const axisHelper = new THREE.AxesHelper(2);
-scene.add(axisHelper);
+// const axisHelper = new THREE.AxesHelper(2);
+// scene.add(axisHelper);
 
 const camera = new THREE.PerspectiveCamera(
   75,
