@@ -6,9 +6,30 @@ import gsap from "gsap";
 
 // *Sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+window.addEventListener("resize", () => {
+  // * update the sizes
+  console.log("resize");
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // * update the camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); //!set device ratio
+});
+
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
 //*cursor
 const cursor = {
   x: 0,
