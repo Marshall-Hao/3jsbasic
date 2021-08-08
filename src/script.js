@@ -3,6 +3,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
+import * as dat from "dat.gui";
 
 // *Sizes
 const sizes = {
@@ -71,31 +72,54 @@ const canvas = document.querySelector("canvas.webgl");
 
 // const geometry = new THREE.BufferGeometry();
 // geometry.setAttribute("position", positionsAttribute);
-const geometry = new THREE.BufferGeometry();
-const count = 100;
-const positionArray = new Float32Array(count * 3 * 3);
+// * the customized geometry
+// const geometry = new THREE.BufferGeometry();
+// const count = 100;
+// const positionArray = new Float32Array(count * 3 * 3);
 
-for (let i = 0; i < count * 3 * 3; i++) {
-  positionArray[i] = (Math.random() - 0.5) * 4;
-}
+// for (let i = 0; i < count * 3 * 3; i++) {
+//   positionArray[i] = (Math.random() - 0.5) * 4;
+// }
 
-const positionsAttribute = new THREE.BufferAttribute(positionArray, 3);
-geometry.setAttribute("position", positionsAttribute);
-const material = new THREE.MeshBasicMaterial({
+// const positionsAttribute = new THREE.BufferAttribute(positionArray, 3);
+// geometry.setAttribute("position", positionsAttribute);
+// const material = new THREE.MeshBasicMaterial({
+//   color: 0xff0000,
+//   wireframe: true,
+// });
+// const mesh = new THREE.Mesh(geometry, material); //!Threejs object
+// scene.add(mesh);
+// *the cube geometry
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1, 2, 2, 2),
+  new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    // wireframe: true,
+  })
+);
+
+scene.add(cube1);
+
+// * DeBug gui
+const gui = new dat.GUI({ width: 400 });
+gui.hide(); //hide by default
+
+const parameters = {
   color: 0xff0000,
-  wireframe: true,
-});
-const mesh = new THREE.Mesh(geometry, material); //!Threejs object
-scene.add(mesh);
-// const cube1 = new THREE.Mesh(
-//   new THREE.BoxGeometry(1, 1, 1, 2, 2, 2),
-//   new THREE.MeshBasicMaterial({
-//     color: 0xff0000,
-//     wireframe: true,
-//   })
-// );
-// scene.add(cube1);
+  spin: () => {
+    gsap.to(cube1.rotation, { duration: 1, y: cube1.rotation.y + 10 });
+  },
+};
 
+gui.addColor(parameters, "color").onChange(() => {
+  cube1.material.color.set(parameters.color);
+});
+
+gui
+  .add(parameters, "spin") // prettier-ignore
+
+// gui
+//   .add(cube1, "wireframe"); // prettier-ignore
 // const cube2 = new THREE.Mesh(
 //   new THREE.BoxGeometry(1, 1, 1),
 //   new THREE.MeshBasicMaterial({ color: 0x00ff00 })
