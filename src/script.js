@@ -85,7 +85,7 @@ const material = new THREE.MeshBasicMaterial({
   color: 0xff0000,
   wireframe: true,
 });
-const mesh = new THREE.Mesh(geometry, material);
+const mesh = new THREE.Mesh(geometry, material); //!Threejs object
 scene.add(mesh);
 // const cube1 = new THREE.Mesh(
 //   new THREE.BoxGeometry(1, 1, 1, 2, 2, 2),
